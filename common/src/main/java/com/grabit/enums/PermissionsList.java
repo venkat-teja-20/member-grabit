@@ -1,0 +1,41 @@
+package com.grabit.enums;
+
+public enum PermissionsList {
+    END_USER,
+
+    VIEW_MEMBER,
+
+    EDIT_MEMBER,
+
+    DELETE_MEMBER,
+
+    VIEW_PARTNER,
+
+    EDIT_PARTNER,
+
+    DELETE_PARTNER,
+
+    VIEW_ORDER,
+
+    EDIT_ORDER,
+
+    DELETE_ORDER,
+
+    VIEW_RESTAURANT,
+
+    EDIT_RESTAURANT,
+
+    DELETE_RESTAURANT,
+
+    VIEW_BRANCH,
+
+    EDIT_BRANCH,
+
+    DELETE_BRANCH,
+
+    VIEW_ITEMS,
+
+    EDIT_ITEMS,
+
+    DELETE_ITEMS;
+}
