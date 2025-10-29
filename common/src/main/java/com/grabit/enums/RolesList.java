@@ -23,12 +23,12 @@ public enum RolesList {
     CUSTOMER_MANAGER;
 
     @JsonCreator
-    public static Role fromValue(String value){
-        for(Role role:values()){
+    public static RolesList fromValue(String value){
+        for(RolesList role:values()){
             if(value.equalsIgnoreCase(role.name()))
                 return role;
         }
-        throw new CustomException(Utility.buildErrorObject("INVALID_ROLE","Role do not exists",400,"Role"));
+        throw new CustomException(Utility.buildErrorObject("INVALID_ROLE","No such Role exists : "+value,400,"Role"));
     }
 
     @JsonValue

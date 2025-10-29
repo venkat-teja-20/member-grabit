@@ -1,5 +1,10 @@
 package com.grabit.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.grabit.Utilities.Utility;
+import com.grabit.exception.CustomException;
+
 public enum PermissionsList {
     END_USER,
 
@@ -38,4 +43,18 @@ public enum PermissionsList {
     EDIT_ITEMS,
 
     DELETE_ITEMS;
+
+    @JsonCreator
+    public static PermissionsList fromValue(String value){
+        for(PermissionsList permission:values()){
+            if(value.equalsIgnoreCase(permission.name()))
+                return permission;
+        }
+        throw new CustomException(Utility.buildErrorObject("INVALID_PERMISSION","No such permission exists : "+value,400,"Role"));
+    }
+
+    @JsonValue
+    public String toValue(){
+        return this.name();
+    }
 }

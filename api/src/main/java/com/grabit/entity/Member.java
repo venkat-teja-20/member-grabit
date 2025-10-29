@@ -1,6 +1,8 @@
 package com.grabit.entity;
 
+import com.grabit.enums.MemberActiveStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,7 +48,26 @@ public class Member extends AuditDetails<String> {
     @Column(name = "otp")
     private String otp;
 
+    @Column(name = "password",nullable = false)
+    @NotNull
+    private String password;
+
+    @Column(name = "is_active",nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private MemberActiveStatus isActive;
+
+    @OneToOne
+    @JoinColumn(name = "role_id",referencedColumnName = "id")
+    private Role role;
+
     @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
     private List<Address> addresses;
+
+    @PrePersist
+    public void memberDefaultStatus(){
+        if(isActive==null)
+            isActive=MemberActiveStatus.TRUE;
+    }
 
 }

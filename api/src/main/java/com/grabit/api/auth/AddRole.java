@@ -1,12 +1,13 @@
 package com.grabit.api.auth;
 
 import com.grabit.Utilities.Utility;
+import com.grabit.bean.auth.RoleDTO;
 import com.grabit.bean.user.UserDataDTO;
 import com.grabit.enums.CommonErrors;
 import com.grabit.enums.RolesList;
 import com.grabit.exception.APIError;
 import com.grabit.exception.CustomException;
-import com.grabit.service.user.UserService;
+import com.grabit.service.auth.RoleService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
@@ -21,17 +22,17 @@ import java.util.Collections;
 public class AddRole {
     private static final String jsonTypeInfo = "error";
 
-    private UserService userService;
+    private RoleService roleService;
 
-    public AddRole(UserService userService){
-        this.userService=userService;
+    public AddRole(RoleService roleService){
+        this.roleService=roleService;
     }
 
     @PostMapping(value = "/add/role",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object addNewUser(@RequestBody UserDataDTO userDataDTO, HttpServletResponse response){
+    public Object addNewUser(@RequestBody RoleDTO roleDTO, HttpServletResponse response){
         try{
             response.setStatus(201);
-            return userService.addAUser(userDataDTO);
+            return roleService.addRole(roleDTO);
         } catch (CustomException e){
             response.setStatus(e.getErrorObject().getHttpCode());
             String errorBody= Utility.toJsonSnakeCase(Collections.singletonMap(jsonTypeInfo,e.getErrorObject().getErrorMsg()));

@@ -3,27 +3,29 @@ package com.grabit.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.grabit.enums.PermissionsList;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity(name = "role_permissions")
+@Entity(name = "permission")
 @Getter
 @Setter
-@Table(name = "role_permissions")
-public class Permissions {
+@Table(name = "permission")
+public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "permission")
+    @Column(name = "permission", nullable = false)
     @Enumerated(EnumType.STRING)
+    @NotNull
     private PermissionsList permission;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id",referencedColumnName = "id", nullable = false)
+    @ManyToMany(mappedBy = "permissions")
     @JsonIgnore
-    private Roles roles;
+    Set<Role> roles=new HashSet<>();
 }

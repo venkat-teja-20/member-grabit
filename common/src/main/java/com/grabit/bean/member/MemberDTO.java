@@ -3,6 +3,9 @@ package com.grabit.bean.member;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grabit.bean.address.AddressDTO;
+import com.grabit.enums.MemberActiveStatus;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +31,18 @@ public class MemberDTO {
 
     @JsonProperty("phone_number")
     private String phoneNumber;
+
+    @JsonProperty("otp")
+    private String otp;
+
+    @JsonProperty("password")
+    private String password;
+
+    @JsonProperty("is_active")
+    private MemberActiveStatus isActive;
+
+    @JsonProperty("role_id")
+    private String role;
 
     @JsonProperty("created_by")
     private String createdBy;
