@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.grabit.exception.APIError;
+import com.grabit.exception.CustomException;
 import com.grabit.exception.ErrorObject;
 import lombok.extern.log4j.Log4j2;
 
@@ -28,10 +30,7 @@ public class Utility {
 
     public static ErrorObject buildErrorObject(String code, String message, int httpStatusCode, String service) {
         ErrorObject errorObject = new ErrorObject();
-        Map<String, String> error = new HashMap<>();
-        error.put("code", code);
-        error.put("message", message);
-        errorObject.setErrorMsg(error);
+        errorObject.setErrorMsg(new APIError(code,message));
         errorObject.setHttpCode(httpStatusCode);
         errorObject.setService(service);
         return errorObject;
@@ -48,5 +47,9 @@ public class Utility {
 
     public static Boolean isNullOrEmpty(Object o) {
         return o == null || o.toString().trim().isEmpty();
+    }
+
+    public static Boolean isNumeric(String str) {
+        return str.matches("\\d+");
     }
 }

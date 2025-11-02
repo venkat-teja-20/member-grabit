@@ -1,8 +1,10 @@
 package com.grabit.entity;
 
 import com.grabit.enums.MemberActiveStatus;
+import com.grabit.enums.RolesList;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,8 +26,7 @@ public class Member extends AuditDetails<String> {
     private Long id;
 
     @Column(name = "first_name",
-            length = 25,
-            nullable = false)
+            length = 25)
     private String firstName;
 
     @Column(name = "last_name",
@@ -35,14 +36,18 @@ public class Member extends AuditDetails<String> {
     @Column(name = "date_of_birth")
     private String dateOfBirth;
 
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
+    @NotNull
     private String email;
 
     @Column(
             name = "phone_number",
             length = 10,
-            updatable = false
+            updatable = false,
+            nullable = false
     )
+    @Size(min = 10,max = 10)
+    @NotNull
     private String phoneNumber;
 
     @Column(name = "otp")
@@ -57,9 +62,8 @@ public class Member extends AuditDetails<String> {
     @NotNull
     private MemberActiveStatus isActive;
 
-    @OneToOne
-    @JoinColumn(name = "role_id",referencedColumnName = "id")
-    private Role role;
+    @Column(name = "role",nullable = false)
+    private RolesList role;
 
     @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
     private List<Address> addresses;

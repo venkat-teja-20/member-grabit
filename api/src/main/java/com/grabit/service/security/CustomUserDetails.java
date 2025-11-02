@@ -1,6 +1,8 @@
 package com.grabit.service.security;
 
+import com.grabit.bean.auth.PermissionDTO;
 import com.grabit.entity.Member;
+import com.grabit.feign.AuthInterface;
 import com.grabit.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,12 +22,16 @@ public class CustomUserDetails implements UserDetailsService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private AuthInterface authInterface;
+
     @Override
-    public UserDetails loadUserByUsername(String mobile) throws UsernameNotFoundException {
-        Member member=memberRepository.findByPhoneNumber(mobile).orElseThrow(()->new UsernameNotFoundException("User Not Found"));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member=memberRepository.findMemberByEmail(email).orElseThrow(()->new UsernameNotFoundException("User Not Found"));
         List<GrantedAuthority> authorities=new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(member.getRole().getRole().name()));
-        authorities.addAll(member.getRole().getPermissions().stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission().name())).toList());
-        return new User(mobile,member.getPassword(),Boolean.parseBoolean(member.getIsActive().toString()),true,true,true,authorities);
+        authorities.add(new SimpleGrantedAuthority(member.getRole().toValue()));
+        List<PermissionDTO> permissionDTOList=authInterface.getPermissions(member.getRole().toValue()).getPermissions();
+        authorities.addAll(permissionDTOList.stream().map(permission -> new SimpleGrantedAuthority(permission.getPermission().toValue())).toList());
+        return new User(email,member.getPassword(),Boolean.parseBoolean(member.getIsActive().toString()),true,true,true,authorities);
     }
 }

@@ -50,7 +50,7 @@ public class MemberDetailsService {
         }
     }
 
-    @Cacheable(value = "member",key = "#id")
+//    @Cacheable(value = "member",key = "#id")
     public MemberDTO getMemberById(String id) {
         try {
            Member member=memberRepository.findById(Long.valueOf(id)).orElseThrow(()->new EntityNotFoundException("Record Not Found"));

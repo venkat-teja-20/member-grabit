@@ -8,7 +8,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class ErrorObject {
-    private Map<String,String> errorMsg;
+    private APIError errorMsg;
 
     private int httpCode;
 

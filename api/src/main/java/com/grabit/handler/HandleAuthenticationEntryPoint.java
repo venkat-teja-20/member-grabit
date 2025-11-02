@@ -17,6 +17,11 @@ public class HandleAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(401);
         response.setContentType("application/json");
-        response.getWriter().write(Utility.toJson(Map.of("code","UNAUTHORIZED","message",authException.getMessage())));
+        if("INVALID_SIGNATURE".equals(authException.getMessage()))
+            response.getWriter().write(Utility.toJson(Map.of("code","INVALID_SIGNATURE","message","Error decoding signature")));
+        else if("AUTHENTICATION_EXPIRED".equals(authException.getMessage()))
+            response.getWriter().write(Utility.toJson(Map.of("code","AUTHENTICATION_EXPIRED","message","Authentication token was expired")));
+        else
+            response.getWriter().write(Utility.toJson(Map.of("code","INVALID_TOKEN","message","Error while deocding the token")));
     }
 }

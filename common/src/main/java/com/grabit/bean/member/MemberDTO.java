@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grabit.bean.address.AddressDTO;
 import com.grabit.enums.MemberActiveStatus;
+import com.grabit.enums.RolesList;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 public class MemberDTO {
     @JsonProperty("id")
-    private String id;
+    private Long id;
 
     @JsonProperty("first_name")
     private String firstName;
@@ -39,10 +40,12 @@ public class MemberDTO {
     private String password;
 
     @JsonProperty("is_active")
+    @Enumerated(EnumType.STRING)
     private MemberActiveStatus isActive;
 
-    @JsonProperty("role_id")
-    private String role;
+    @JsonProperty("role")
+    @Enumerated(EnumType.STRING)
+    private RolesList role;
 
     @JsonProperty("created_by")
     private String createdBy;

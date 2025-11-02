@@ -33,38 +33,28 @@ public class MemberCreateService {
     PasswordEncoder passwordEncoder;
 
     public MemberDTO createMember(MemberDTO request) {
-        try {
-            Member member = setMemberDetails(request, new Member());
-            List<AddressDTO> addressDTOList =request.getAddressDTOList();
-            if(!Utility.isNullOrEmpty(addressDTOList) && !addressDTOList.isEmpty()){
-                List<Address> addresses=new ArrayList<>();
-                for(AddressDTO addressDTO:addressDTOList){
-                    Address address=new Address();
-                    BeanUtils.copyProperties(addressDTO,address);
-                    address.setMember(member);
-                    addresses.add(address);
-                }
-                member.setAddresses(addresses);
+        Member member = setMemberDetails(request, new Member());
+        List<AddressDTO> addressDTOList = request.getAddressDTOList();
+        if (!Utility.isNullOrEmpty(addressDTOList) && !addressDTOList.isEmpty()) {
+            List<Address> addresses = new ArrayList<>();
+            for (AddressDTO addressDTO : addressDTOList) {
+                Address address = new Address();
+                BeanUtils.copyProperties(addressDTO, address);
+                address.setMember(member);
+                addresses.add(address);
             }
-            Member savedMember = memberRepository.save(member);
-            log.info("Member Created : " + Utility.toJson(savedMember));
-            MemberDTO memberDTO= ModelMapperUtility.map(savedMember, MemberDTO.class);
-            if(!Utility.isNullOrEmpty((savedMember.getAddresses())))
-                memberDTO.setAddressDTOList(savedMember.getAddresses().stream().map(address -> ModelMapperUtility.map(address,AddressDTO.class)).toList());
-            return memberDTO;
+            member.setAddresses(addresses);
         }
-        catch (DataIntegrityViolationException e) {
-            log.info(e);
-            if(String.valueOf(e).contains("member_email_unique"))
-                throw new CustomException(Utility.buildErrorObject(CommonErrors.EMAIL_ALREADY_EXISTS.toString(), CommonErrors.EMAIL_ALREADY_EXISTS.getMessage(), 400, "createMember"));
-            if(String.valueOf(e).contains("member_phone_number_unique"))
-                throw new CustomException(Utility.buildErrorObject(CommonErrors.PHONE_NUMBER_ALREADY_EXISTS.toString(), CommonErrors.PHONE_NUMBER_ALREADY_EXISTS.getMessage(), 400, "createMember"));
-            throw new CustomException(Utility.buildErrorObject("CHARACTER_LIMITATION", "Few Attribute Exceeds Character Limit",400,"createMember"));
-        }
+        Member savedMember = memberRepository.save(member);
+        log.info("Member Created : " + Utility.toJson(savedMember));
+        MemberDTO memberDTO = ModelMapperUtility.map(savedMember, MemberDTO.class);
+        if (!Utility.isNullOrEmpty((savedMember.getAddresses())))
+            memberDTO.setAddressDTOList(savedMember.getAddresses().stream().map(address -> ModelMapperUtility.map(address, AddressDTO.class)).toList());
+        return memberDTO;
     }
 
-    private Member setMemberDetails(MemberDTO request,Member member){
-        BeanUtils.copyProperties(request,member);
+    private Member setMemberDetails(MemberDTO request, Member member) {
+        BeanUtils.copyProperties(request, member);
         member.setPassword(passwordEncoder.encode(request.getPassword()));
         return member;
     }

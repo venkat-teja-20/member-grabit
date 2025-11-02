@@ -10,6 +10,7 @@ public enum CommonErrors {
     INVALID_ADDRESS_ID("Address Id Provided is Not Valid"),
     NO_DATA_FOUND("No Records Found in the Database"),
     MEMBER_NOT_FOUND("No Member found with the provided member id"),
+    REQUEST_BODY_MISSING("Request Body is required for this operation"),
     INVALID_MEMBER_ID("Member Id Provided is Not Valid");
 
     @Getter
