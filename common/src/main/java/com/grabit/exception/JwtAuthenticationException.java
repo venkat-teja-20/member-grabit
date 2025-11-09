@@ -1,9 +1,12 @@
 package com.grabit.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import javax.naming.AuthenticationException;
 
-public class JwtAuthenticationException extends AuthenticationException {
-    public JwtAuthenticationException(String msg) {
-        super(msg);
-    }
+@AllArgsConstructor
+public class JwtAuthenticationException extends RuntimeException{
+    @Getter
+    private APIError authenticationError;
 }

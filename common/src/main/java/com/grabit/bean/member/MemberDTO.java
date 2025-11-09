@@ -1,5 +1,6 @@
 package com.grabit.bean.member;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grabit.bean.address.AddressDTO;
@@ -34,9 +35,11 @@ public class MemberDTO {
     private String phoneNumber;
 
     @JsonProperty("otp")
+    @JsonIgnore
     private String otp;
 
     @JsonProperty("password")
+    @JsonIgnore
     private String password;
 
     @JsonProperty("is_active")
@@ -46,18 +49,6 @@ public class MemberDTO {
     @JsonProperty("role")
     @Enumerated(EnumType.STRING)
     private RolesList role;
-
-    @JsonProperty("created_by")
-    private String createdBy;
-
-    @JsonProperty("created_ts")
-    private String createdTs;
-
-    @JsonProperty("updated_by")
-    private String updatedBy;
-
-    @JsonProperty("updated_ts")
-    private String updatedTs;
 
     @JsonProperty("address")
     @JsonInclude(JsonInclude.Include.NON_NULL)

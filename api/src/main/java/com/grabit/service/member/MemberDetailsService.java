@@ -29,8 +29,8 @@ public class MemberDetailsService {
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired
-    private CacheService cacheService;
+//    @Autowired
+//    private CacheService cacheService;
 
     public List<MemberDTO> getMembersWithPaginationAndSorting(int pageNumber, int pageSize, String orderBy, String orderField) {
         try {
@@ -41,7 +41,7 @@ public class MemberDetailsService {
                 throw new CustomException(Utility.buildErrorObject(CommonErrors.NO_DATA_FOUND.toString(),CommonErrors.NO_DATA_FOUND.getMessage(), 204,"getMemberService"));
             List<MemberDTO> memberList = membersData.stream().map(member -> ModelMapperUtility.map(member, MemberDTO.class)).toList();
             log.debug("Member List Response : "+ Utility.toJson(memberList));
-            cacheService.addMemberToRedisCache(memberList);
+//            cacheService.addMemberToRedisCache(memberList);
             return memberList;
         } catch (IllegalArgumentException e) {
             throw new CustomException(Utility.buildErrorObject("INVALID_PARAMETER", e.getMessage(), 400, "getMemberService"));

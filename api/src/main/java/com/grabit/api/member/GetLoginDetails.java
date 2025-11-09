@@ -15,7 +15,7 @@ public class GetLoginDetails {
     private LoginDetailsService loginDetailsService;
 
     @GetMapping(value = "/member/credentials",produces = MediaType.APPLICATION_JSON_VALUE)
-    public LoginDetailsDTO getDetails(@RequestParam(value = "mobile") String mobile){
-        return loginDetailsService.getDetails(mobile);
+    public LoginDetailsDTO getDetails(@RequestParam(value = "email") String email){
+        return loginDetailsService.getDetails(email);
     }
 }

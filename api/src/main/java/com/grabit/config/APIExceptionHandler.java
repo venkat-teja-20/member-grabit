@@ -12,6 +12,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -148,11 +149,17 @@ public class APIExceptionHandler {
             return new APIError("INVALID_REQUEST",ex.getMessage());
         }
     }
+//
+//    @ExceptionHandler(value = AuthorizationDeniedException.class)
+//    public APIError handleAuthorizationDeniedException(AuthorizationDeniedException ex, HttpServletResponse response) {
+//        response.setStatus(403);
+//        return new APIError(CommonErrors.ACCESS_DENIED.toString(), CommonErrors.ACCESS_DENIED.getMessage());
+//    }
 
-    @ExceptionHandler(value = Exception.class)
-    public APIError handleException(Exception ex, HttpServletResponse response) {
-        log.info("Unknown Issue Occurred : " + ex.getMessage());
-        response.setStatus(500);
-        return new APIError(CommonErrors.unknown_error.toString(), CommonErrors.unknown_error.getMessage());
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    public APIError handleException(Exception ex, HttpServletResponse response) {
+//        log.info("Unknown Issue Occurred : " + ex.getMessage());
+//        response.setStatus(500);
+//        return new APIError(CommonErrors.unknown_error.toString(), CommonErrors.unknown_error.getMessage());
+//    }
 }

@@ -16,8 +16,7 @@ public class LoginDetailsService {
         this.memberRepository = memberRepository;
     }
 
-    public LoginDetailsDTO getDetails(String mobile){
-        Member member=memberRepository.findByPhoneNumber(mobile).orElseThrow(()->new EntityNotFoundException("No user exists with mobile : "+mobile));
-        return ModelMapperUtility.map(member, LoginDetailsDTO.class);
+    public LoginDetailsDTO getDetails(String email){
+        return memberRepository.findIdAndEmailAndRoleAndPhoneNumberAndIs_activeAndPasswordByEmail(email).orElseThrow(()->new EntityNotFoundException("No user exists with email : "+email));
     }
 }
