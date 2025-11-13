@@ -35,9 +35,6 @@ import java.util.stream.Collectors;
 public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
-    UserDetailsService userDetailsService;
-
-    @Autowired
     RestTemplate restTemplate;
 
 
