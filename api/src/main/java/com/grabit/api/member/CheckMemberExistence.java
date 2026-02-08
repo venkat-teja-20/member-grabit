@@ -28,21 +28,8 @@ public class CheckMemberExistence {
     @Autowired
     MemberExistsService memberExistsService;
 
-    @GetMapping(value = "/member/{memberId}/exists",produces = "application/json")
-    public ResponseEntity<Map<String, Object>> checkIfMemberExists(@PathVariable(value = "memberId") String memberId, HttpServletResponse response){
-        try {
-            return memberExistsService.isMemberPresent(memberId);
-        }catch (CustomException e) {
-            String errorBody = Utility.toJsonSnakeCase(Collections.singletonMap(jsonTypeInfo, e.getErrorObject().getErrorMsg()));
-            log.info("Check Member Exists API Response : " + errorBody);
-            Map<String,Object> errorMap=new HashMap<>();
-            errorMap.put("code",e.getErrorObject().getErrorMsg().get("code"));
-            errorMap.put("message",e.getErrorObject().getErrorMsg().get("message"));
-            return ResponseEntity.status(e.getErrorObject().getHttpCode()).body(errorMap);
-        } catch (Exception e) {
-            log.info("Check Member Exists API Response : " + e.getMessage());
-            APIError apiError=new APIError(CommonErrors.unknown_error.toString(), CommonErrors.unknown_error.getMessage());
-            return ResponseEntity.internalServerError().body(ModelMapperUtility.map(apiError,Map.class));
-        }
+    @GetMapping(value = "/member/{memberId}/exists", produces = "application/json")
+    public ResponseEntity<Map<String, Object>> checkIfMemberExists(@PathVariable(value = "memberId") String memberId, HttpServletResponse response) {
+        return memberExistsService.isMemberPresent(memberId);
     }
 }

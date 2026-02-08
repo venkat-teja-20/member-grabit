@@ -17,7 +17,7 @@ public class DeleteMemberService {
     @Autowired
     MemberRepository memberRepository;
 
-    @CacheEvict(value = "member",key = "#id")
+//    @CacheEvict(value = "member",key = "#id")
     public ResponseEntity<Map<String,String>> deleteMember(String id){
         try{
             if(memberRepository.existsById(Long.valueOf(id))){

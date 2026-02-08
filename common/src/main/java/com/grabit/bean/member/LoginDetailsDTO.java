@@ -3,44 +3,29 @@ package com.grabit.bean.member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.grabit.bean.address.AddressDTO;
 import com.grabit.enums.MemberActiveStatus;
 import com.grabit.enums.RolesList;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-public class MemberDTO {
+public class LoginDetailsDTO {
     @JsonProperty("id")
     private Long id;
-
-    @JsonProperty("first_name")
-    private String firstName;
-
-    @JsonProperty("last_name")
-    private String lastName;
-
-    @JsonProperty("date_of_birth")
-    private String dateOfBirth;
-
-    @JsonProperty("email")
-    private String email;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
 
-    @JsonProperty("otp")
-    @JsonIgnore
-    private String otp;
-
     @JsonProperty("password")
-    @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
+
+    @JsonProperty("email")
+    private String email;
 
     @JsonProperty("is_active")
     @Enumerated(EnumType.STRING)
@@ -50,7 +35,12 @@ public class MemberDTO {
     @Enumerated(EnumType.STRING)
     private RolesList role;
 
-    @JsonProperty("address")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<AddressDTO> addressDTOList;
+    public LoginDetailsDTO(Long id,String phoneNumber, String email, String password, MemberActiveStatus isActive, RolesList role) {
+        this.id=id;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password=password;
+        this.isActive = isActive;
+        this.role = role;
+    }
 }

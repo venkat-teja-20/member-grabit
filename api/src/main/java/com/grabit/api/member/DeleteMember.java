@@ -28,13 +28,6 @@ public class DeleteMember {
 
     @DeleteMapping(value = "/member/delete/{memberId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String,String>> memberDelete(@PathVariable(value = "memberId") String memberId){
-        try{
-            return deleteMemberService.deleteMember(memberId);
-        } catch (CustomException e){
-            return ResponseEntity.status(e.getErrorObject().getHttpCode()).body(e.getErrorObject().getErrorMsg());
-        }
-        catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of(CommonErrors.unknown_error.toString(),CommonErrors.unknown_error.getMessage()));
-        }
+        return deleteMemberService.deleteMember(memberId);
     }
 }

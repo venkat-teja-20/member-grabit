@@ -29,19 +29,8 @@ public class AddDeliveryAddress {
 
     @PostMapping(value = "/member/{memberId}/addresses", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Object addNewAddress(@PathVariable(value = "memberId") String memberId, @RequestBody AddressDTO request, HttpServletResponse response) {
-        try {
-            response.setStatus(201);
-            return addAddressService.saveAddress(request, memberId);
-        } catch (CustomException e) {
-            response.setStatus(e.getErrorObject().getHttpCode());
-            String errorBody = Utility.toJsonSnakeCase(Collections.singletonMap(jsonTypeInfo, e.getErrorObject().getErrorMsg()));
-            log.info("Add Delivery Address Response : " + errorBody);
-            return errorBody;
-        } catch (Exception e) {
-            log.info("Add Delivery Address Response : " + e.getMessage());
-            response.setStatus(500);
-            return new APIError(CommonErrors.unknown_error.toString(), CommonErrors.unknown_error.getMessage());
-        }
+        response.setStatus(201);
+        return addAddressService.saveAddress(request, memberId);
     }
 
 }

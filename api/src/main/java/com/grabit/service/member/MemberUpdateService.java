@@ -30,8 +30,8 @@ public class MemberUpdateService {
     @Autowired
     MemberRepository memberRepository;
 
-    @CachePut(value = "member",key = "#id")
-    @Transactional(transactionManager = "platformTransactionManager")
+//    @CachePut(value = "member",key = "#id")
+    @Transactional
     public Object updateMember(MemberRequest request, String id) {
         try {
             Member member = memberRepository.findById(Long.valueOf(id)).orElseThrow(() -> new EntityNotFoundException("Record Not Found"));
