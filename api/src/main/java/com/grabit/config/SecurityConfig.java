@@ -15,6 +15,11 @@ public class SecurityConfig {
 
     private static String[] PERMITTED_PATHS=new String[]{
             "/member/create",
+            "/member/create/",
+            "/member/data",
+            "/member/data/",
+            "/member/credentials",
+            "/member/credentials/",
             "/member/credentials",
             "/member/delete/*",
     };

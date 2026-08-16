@@ -14,6 +14,8 @@ public interface MemberRepository extends JpaRepository<Member,Long> {
 
     Optional<Member> findMemberByEmail(String email);
 
+    Optional<Member> findMemberByEmailAndPhoneNumber(String email,String phoneNumber);
+
     @Query("SELECT new com.grabit.bean.member.LoginDetailsDTO(m.id,m.phoneNumber, m.email, m.password, m.isActive, m.role) FROM Member m WHERE m.email = :email")
     Optional<LoginDetailsDTO> findIdAndEmailAndRoleAndPhoneNumberAndIs_activeAndPasswordByEmail(String email);
 }

@@ -122,6 +122,13 @@ public class APIExceptionHandler {
         return new APIError("DUPLICATE_RECORD", ex.getMessage());
     }
 
+    @ExceptionHandler(value = Exception.class)
+    public APIError handleException(Exception ex, HttpServletResponse response) {
+        log.info("Something went Wrong : " + ex);
+        response.setStatus(500);
+        return new APIError(CommonErrors.unknown_error.toString(), CommonErrors.unknown_error.getMessage());
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public APIError handleHttpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletResponse response) {
         try {

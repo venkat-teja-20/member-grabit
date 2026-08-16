@@ -1,6 +1,7 @@
 package com.grabit.bean.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.grabit.bean.address.AddressDTO;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MemberDTO {
     @JsonProperty("id")
     private Long id;
@@ -38,8 +40,7 @@ public class MemberDTO {
     @JsonIgnore
     private String otp;
 
-    @JsonProperty("password")
-    @JsonIgnore
+    @JsonProperty(value = "password",access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @JsonProperty("is_active")
